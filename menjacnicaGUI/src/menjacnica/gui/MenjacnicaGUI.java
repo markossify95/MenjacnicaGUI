@@ -14,9 +14,12 @@ import javax.swing.JTable;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextArea;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
@@ -30,7 +33,10 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.LinkedList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -99,6 +105,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return menuBar;
 	}
+
 	private JMenu getJmnFile() {
 		if (jmnFile == null) {
 			jmnFile = new JMenu("File");
@@ -108,6 +115,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return jmnFile;
 	}
+
 	private JMenu getJmnHelp() {
 		if (jmnHelp == null) {
 			jmnHelp = new JMenu("Help");
@@ -115,6 +123,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return jmnHelp;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -122,6 +131,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return scrollPane;
 	}
+
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
@@ -130,6 +140,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return table;
 	}
+
 	private JPanel getPanel_east() {
 		if (panel_east == null) {
 			panel_east = new JPanel();
@@ -141,6 +152,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return panel_east;
 	}
+
 	private JButton getJbtnDodaj() {
 		if (jbtnDodaj == null) {
 			jbtnDodaj = new JButton("Dodaj kurs");
@@ -148,6 +160,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return jbtnDodaj;
 	}
+
 	private JButton getJbtnIzbrisi() {
 		if (jbtnIzbrisi == null) {
 			jbtnIzbrisi = new JButton("Izbri\u0161i kurs");
@@ -155,12 +168,14 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return jbtnIzbrisi;
 	}
+
 	private JButton getJbtnIzvrsiZamenu() {
 		if (jbtnIzvrsiZamenu == null) {
 			jbtnIzvrsiZamenu = new JButton("Izvr\u0161i zamenu");
 		}
 		return jbtnIzvrsiZamenu;
 	}
+
 	private JPanel getPanel_south() {
 		if (panel_south == null) {
 			panel_south = new JPanel();
@@ -171,6 +186,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return panel_south;
 	}
+
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
@@ -179,6 +195,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return scrollPane_1;
 	}
+
 	private JTextArea getTextArea() {
 		if (textArea == null) {
 			textArea = new JTextArea();
@@ -186,35 +203,74 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return textArea;
 	}
+
 	private JMenuItem getMntmOpen() {
 		if (mntmOpen == null) {
 			mntmOpen = new JMenuItem("Open");
+			mntmOpen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					JFileChooser fc = new JFileChooser();
+					int returnVal = fc.showOpenDialog(getContentPane());
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						textArea.append("Ucitan fajl: " + file.getAbsolutePath()+ "\n");
+					}
+				}
+			});
 			mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 			mntmOpen.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/res/img/folder_icon_small.gif")));
 		}
 		return mntmOpen;
 	}
+
 	private JMenuItem getMntmSave() {
 		if (mntmSave == null) {
 			mntmSave = new JMenuItem("Save");
+			mntmSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					int returnVal = fc.showSaveDialog(getContentPane());
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						textArea.append("Sacuvan fajl: " + file.getAbsolutePath() + "\n");
+					}
+				}
+			});
 			mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 			mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/res/img/folder_icon_small.gif")));
 		}
 		return mntmSave;
 	}
+
 	private JMenuItem getMntmExit() {
 		if (mntmExit == null) {
 			mntmExit = new JMenuItem("Exit");
+			mntmExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int opcija = JOptionPane.showConfirmDialog(getContentPane(), "Da li zelite da izadjete iz programa",
+							"Exit", JOptionPane.YES_NO_CANCEL_OPTION);
+					if(opcija == 0){
+						System.exit(0);
+					}
+				}
+			});
 			mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK));
 		}
 		return mntmExit;
 	}
+
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About");
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(getContentPane(), "Kreirao: Marko Kostadinovic\n\nFON 2016\n", "About", JOptionPane.INFORMATION_MESSAGE);
+				}
+			});
 		}
 		return mntmAbout;
 	}
+
 	private JPopupMenu getPopupMenu() {
 		if (popupMenu == null) {
 			popupMenu = new JPopupMenu();
@@ -224,6 +280,7 @@ public class MenjacnicaGUI extends JFrame {
 		}
 		return popupMenu;
 	}
+
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -231,28 +288,33 @@ public class MenjacnicaGUI extends JFrame {
 					showMenu(e);
 				}
 			}
+
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					showMenu(e);
 				}
 			}
+
 			private void showMenu(MouseEvent e) {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
 	}
+
 	private JMenuItem getMntmDodajKurs() {
 		if (mntmDodajKurs == null) {
 			mntmDodajKurs = new JMenuItem("Dodaj kurs");
 		}
 		return mntmDodajKurs;
 	}
+
 	private JMenuItem getMntmIzbriiKurs() {
 		if (mntmIzbriiKurs == null) {
 			mntmIzbriiKurs = new JMenuItem("Izbri\u0161i kurs");
 		}
 		return mntmIzbriiKurs;
 	}
+
 	private JMenuItem getMntmIzvriZamenu() {
 		if (mntmIzvriZamenu == null) {
 			mntmIzvriZamenu = new JMenuItem("Izvr\u0161i zamenu");
