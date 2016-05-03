@@ -65,4 +65,9 @@ public class Kurs {
 		this.naziv = naziv;
 	}
 
+	@Override
+	public String toString() {
+		return sifra + "\t" + skraceniNaziv + "\t" + prodajni + "\t" + srednji + "\t" + kupovni + "\t" + naziv;
+	}
+
 }
