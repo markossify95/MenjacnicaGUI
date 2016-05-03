@@ -168,9 +168,10 @@ public class MenjacnicaGUI extends JFrame {
 										"Kurs za valutu: " + kursevi.get(index).getSkraceniNaziv()
 												+ " uspesno izbrisan",
 										"Uspesno brisanje", JOptionPane.INFORMATION_MESSAGE);
+								textArea.append("Izbrisan je red sa indexom: " + index + "\t" + "Valuta: "
+										+ kursevi.get(index).getSkraceniNaziv() + "\n");
 								kursevi.remove(index);
 								osveziTabelu();
-								textArea.append("Izbrisan je red sa indexom: " + index + "\n");
 							} else {
 								JOptionPane.showMessageDialog(getContentPane(), "Greska pri brisanju kursa",
 										"Neuspesno brisanje", JOptionPane.ERROR_MESSAGE);
@@ -225,7 +226,7 @@ public class MenjacnicaGUI extends JFrame {
 		return textArea;
 	}
 
-	public void upisiUStatusBar(String text) {
+	public void upisiDodatiKursUStatusBar(String text) {
 		textArea.append(text + "\n");
 	}
 
@@ -396,5 +397,10 @@ public class MenjacnicaGUI extends JFrame {
 	public void dodajUListu(Kurs k) {
 		kursevi.add(k);
 		osveziTabelu();
+	}
+
+	public void upisiIzmenu(String odabran, int iznos, String vrstaTransakcije) {
+		textArea.append(
+				"Valuta: " + odabran + "\t iznos: " + iznos + "\t vrsta transakcije: " + vrstaTransakcije + "\n");
 	}
 }

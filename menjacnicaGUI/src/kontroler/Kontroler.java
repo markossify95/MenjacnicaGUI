@@ -7,14 +7,15 @@ import menjacnica.gui.MenjacnicaGUI;
 
 public class Kontroler {
 	private static MenjacnicaGUI gui;
+
 	public static void upisiKursUStatusBar(Kurs k) {
-		gui.upisiUStatusBar(k.toString());
+		gui.upisiDodatiKursUStatusBar(k.toString());
 	}
 
-	public static void dodajKursUListu(Kurs k){
+	public static void dodajKursUListu(Kurs k) {
 		gui.dodajUListu(k);
 	}
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -26,5 +27,9 @@ public class Kontroler {
 				}
 			}
 		});
+	}
+
+	public static void upisiIzmenu(String odabran, int iznos, String vrstaTransakcije) {
+		gui.upisiIzmenu(odabran, iznos, vrstaTransakcije);
 	}
 }
