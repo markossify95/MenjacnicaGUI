@@ -152,6 +152,33 @@ public class MenjacnicaGUI extends JFrame {
 	private JButton getJbtnIzbrisi() {
 		if (jbtnIzbrisi == null) {
 			jbtnIzbrisi = new JButton("Izbri\u0161i kurs");
+			jbtnIzbrisi.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = table.getSelectedRow();
+					if (index == -1) {
+						JOptionPane.showMessageDialog(getContentPane(), "Morate izabrati zeljeni kurs u tabeli",
+								"Greska", JOptionPane.ERROR_MESSAGE);
+					} else {
+						int odabir = JOptionPane.showConfirmDialog(getContentPane(),
+								"Da li ste sigurni da zelite da izbrisete selektovani kurs?", "Potvrda brisanja",
+								JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (odabir == 0) {
+							if (kursevi.get(index) != null) {
+								JOptionPane.showMessageDialog(getContentPane(),
+										"Kurs za valutu: " + kursevi.get(index).getSkraceniNaziv()
+												+ " uspesno izbrisan",
+										"Uspesno brisanje", JOptionPane.INFORMATION_MESSAGE);
+								kursevi.remove(index);
+								osveziTabelu();
+								textArea.append("Izbrisan je red sa indexom: " + index + "\n");
+							} else {
+								JOptionPane.showMessageDialog(getContentPane(), "Greska pri brisanju kursa",
+										"Neuspesno brisanje", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+			});
 			jbtnIzbrisi.setPreferredSize(new Dimension(112, 23));
 		}
 		return jbtnIzbrisi;
@@ -192,10 +219,10 @@ public class MenjacnicaGUI extends JFrame {
 		return textArea;
 	}
 
-	public void upisiUStatusBar(String text){
+	public void upisiUStatusBar(String text) {
 		textArea.append(text + "\n");
 	}
-	
+
 	private JMenuItem getMntmOpen() {
 		if (mntmOpen == null) {
 			mntmOpen = new JMenuItem("Open");
@@ -205,7 +232,7 @@ public class MenjacnicaGUI extends JFrame {
 					int returnVal = fc.showOpenDialog(getContentPane());
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
 						File file = fc.getSelectedFile();
-						textArea.append("Ucitan fajl: " + file.getAbsolutePath()+ "\n");
+						textArea.append("Ucitan fajl: " + file.getAbsolutePath() + "\n");
 					}
 				}
 			});
@@ -241,7 +268,7 @@ public class MenjacnicaGUI extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					int opcija = JOptionPane.showConfirmDialog(getContentPane(), "Da li zelite da izadjete iz programa",
 							"Exit", JOptionPane.YES_NO_CANCEL_OPTION);
-					if(opcija == 0){
+					if (opcija == 0) {
 						System.exit(0);
 					}
 				}
@@ -256,7 +283,8 @@ public class MenjacnicaGUI extends JFrame {
 			mntmAbout = new JMenuItem("About");
 			mntmAbout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(getContentPane(), "Kreirao: Marko Kostadinovic\n\nFON 2016\n", "About", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(getContentPane(), "Kreirao: Marko Kostadinovic\n\nFON 2016\n",
+							"About", JOptionPane.INFORMATION_MESSAGE);
 				}
 			});
 		}
@@ -309,6 +337,33 @@ public class MenjacnicaGUI extends JFrame {
 	private JMenuItem getMntmIzbriiKurs() {
 		if (mntmIzbriiKurs == null) {
 			mntmIzbriiKurs = new JMenuItem("Izbri\u0161i kurs");
+			mntmIzbriiKurs.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int index = table.getSelectedRow();
+					if (index == -1) {
+						JOptionPane.showMessageDialog(getContentPane(), "Morate izabrati zeljeni kurs u tabeli",
+								"Greska", JOptionPane.ERROR_MESSAGE);
+					} else {
+						int odabir = JOptionPane.showConfirmDialog(getContentPane(),
+								"Da li ste sigurni da zelite da izbrisete selektovani kurs?", "Potvrda brisanja",
+								JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (odabir == 0) {
+							if (kursevi.get(index) != null) {
+								JOptionPane.showMessageDialog(getContentPane(),
+										"Kurs za valutu: " + kursevi.get(index).getSkraceniNaziv()
+												+ " uspesno izbrisan",
+										"Uspesno brisanje", JOptionPane.INFORMATION_MESSAGE);
+								kursevi.remove(index);
+								osveziTabelu();
+								textArea.append("Izbrisan je red sa indexom: " + index + "\n");
+							} else {
+								JOptionPane.showMessageDialog(getContentPane(), "Greska pri brisanju kursa",
+										"Neuspesno brisanje", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+			});
 		}
 		return mntmIzbriiKurs;
 	}
@@ -320,10 +375,14 @@ public class MenjacnicaGUI extends JFrame {
 		return mntmIzvriZamenu;
 	}
 
-	public void dodajUListu(Kurs k) {
-		kursevi.add(k);
-		MenjacnicaTableModel m = (MenjacnicaTableModel)table.getModel();
+	public void osveziTabelu() {
+		MenjacnicaTableModel m = (MenjacnicaTableModel) table.getModel();
 		m.osvezi(kursevi);
 		table.setModel(m);
+	}
+
+	public void dodajUListu(Kurs k) {
+		kursevi.add(k);
+		osveziTabelu();
 	}
 }
